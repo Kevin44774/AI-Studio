@@ -150,7 +150,7 @@ An AI-powered image generation studio built with React, TypeScript, and Express.
 No additional environment variables required for basic functionality. The application uses:
 
 - `NODE_ENV`: Set automatically by npm scripts
-- `PORT`: Defaults to 5000 (configured in .replit)
+- `PORT`: Defaults to 5000
 
 ## Browser Support
 
