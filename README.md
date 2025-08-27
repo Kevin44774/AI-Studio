@@ -16,8 +16,8 @@ An AI-powered image generation studio built with React, TypeScript, and Express.
 
 ### Prerequisites
 
-- Node.js 20+ (automatically handled in Replit)
-- PostgreSQL 16 (automatically configured in Replit)
+- Node.js 20+
+- PostgreSQL 16 
 
 ### Installation
 
