@@ -1,57 +1,166 @@
-# Overview
 
-This is an AI-powered image generation studio built as a full-stack TypeScript application. Users can upload images, add creative prompts, select artistic styles, and generate transformed versions of their images. The application features a modern React-based interface with a Node.js/Express backend and PostgreSQL database integration.
+# AI Studio
 
-# User Preferences
+An AI-powered image generation studio built with React, TypeScript, and Express. Users can upload images, add creative prompts, select artistic styles, and generate transformed versions of their images using a modern, accessible interface.
 
-Preferred communication style: Simple, everyday language.
+## Features
 
-# System Architecture
+- **Image Upload**: Drag & drop or click to upload PNG/JPG images (up to 10MB)
+- **Style Selection**: Choose from 6 artistic styles (Editorial, Streetwear, Vintage, Minimalist, Cyberpunk, Watercolor)
+- **Creative Controls**: Adjust creativity and strength parameters for fine-tuned results
+- **Generation History**: View and manage your recent generations with local storage
+- **Responsive Design**: Mobile-friendly interface with adaptive layouts
+- **Accessibility**: Full keyboard navigation and screen reader support
 
-## Frontend Architecture
+## Getting Started
 
-The client is built with React and TypeScript using Vite as the build tool. It follows a component-based architecture with:
+### Prerequisites
 
-- **UI Components**: Built on shadcn/ui components with Radix UI primitives and Tailwind CSS for styling
-- **State Management**: React hooks and Tanstack Query for server state management
+- Node.js 20+ (automatically handled in Replit)
+- PostgreSQL 16 (automatically configured in Replit)
+
+### Installation
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Set up the database:**
+   ```bash
+   npm run db:push
+   ```
+
+### Running the Application
+
+1. **Development mode:**
+   ```bash
+   npm run dev
+   ```
+   The application will be available at `http://localhost:5000`
+
+2. **Production build:**
+   ```bash
+   npm run build
+   npm start
+   ```
+
+### Testing
+
+1. **Run unit tests:**
+   ```bash
+   npm test
+   ```
+
+2. **Run end-to-end tests:**
+   ```bash
+   npx cypress open
+   ```
+   or
+   ```bash
+   npx cypress run
+   ```
+
+3. **Type checking:**
+   ```bash
+   npm run check
+   ```
+
+## Project Structure
+
+```
+├── client/                 # React frontend
+│   ├── src/
+│   │   ├── components/     # Reusable UI components
+│   │   ├── hooks/         # Custom React hooks
+│   │   ├── lib/           # Utilities and configurations
+│   │   ├── pages/         # Page components
+│   │   └── types/         # TypeScript type definitions
+├── server/                # Express backend
+│   ├── index.ts          # Server entry point
+│   ├── routes.ts         # API route definitions
+│   ├── storage.ts        # Database abstraction layer
+│   └── vite.ts           # Development middleware
+├── shared/               # Shared types and schemas
+├── cypress/              # E2E tests
+└── dist/                 # Production build output
+```
+
+## API Endpoints
+
+- `POST /api/upload` - Upload and process images
+- `POST /api/generate` - Generate styled images
+- `GET /api/generations` - Fetch generation history
+- `GET /api/generations/:id` - Get specific generation
+
+## Design Architecture
+
+### Frontend Architecture
+
+- **Framework**: React 18 with TypeScript
+- **Build Tool**: Vite for fast development and optimized builds
+- **UI Components**: shadcn/ui built on Radix UI primitives
+- **Styling**: Tailwind CSS with CSS variables for theming
+- **State Management**: React hooks + TanStack Query for server state
 - **Routing**: Wouter for lightweight client-side routing
-- **Form Handling**: React Hook Form with Zod validation for type-safe form management
-- **Styling**: Tailwind CSS with CSS variables for theming support
+- **Form Handling**: React Hook Form with Zod validation
 
-## Backend Architecture
+### Backend Architecture
 
-The server uses Express.js with TypeScript and follows a RESTful API design:
+- **Runtime**: Node.js with Express.js
+- **Database**: PostgreSQL with Drizzle ORM
+- **File Upload**: Multer middleware with memory storage
+- **Validation**: Zod schemas for request/response validation
+- **Development**: Hot reloading with Vite middleware integration
 
-- **File Upload**: Multer middleware for handling image uploads with memory storage
-- **API Routes**: Centralized route registration with request/response logging
-- **Error Handling**: Global error middleware for consistent error responses
-- **Development**: Vite middleware integration for hot reloading in development
+### Key Design Decisions
 
-## Data Layer
+1. **Modular Component Architecture**: Components are designed to be reusable and composable with clear prop interfaces
+2. **Type Safety**: End-to-end TypeScript with shared schemas between client and server
+3. **Accessibility First**: ARIA labels, keyboard navigation, and semantic HTML throughout
+4. **Progressive Enhancement**: Works without JavaScript for basic functionality
+5. **Error Resilience**: Retry mechanisms, graceful degradation, and comprehensive error handling
 
-**Database**: PostgreSQL with Drizzle ORM for type-safe database operations
-- **Schema**: Separate shared schema module for type consistency between client and server
-- **Storage Interface**: Abstracted storage layer with in-memory implementation for development
-- **Migration**: Drizzle Kit for schema migrations
+### Database Schema
 
-**Key Models**:
-- `generations`: Stores image generation records with original and generated image URLs
-- `users`: User authentication data (currently defined but not implemented)
+- **generations**: Stores image generation records
+  - `id`: Unique identifier
+  - `imageUrl`: Generated image URL
+  - `originalImageUrl`: Original uploaded image data URL
+  - `prompt`: User's creative prompt
+  - `style`: Selected artistic style
+  - `createdAt`: Timestamp
 
-## Image Processing
+### Performance Optimizations
 
-- **Upload Flow**: Files are processed through Multer, converted to base64 data URLs
-- **Validation**: File type and size restrictions (PNG/JPG, 10MB limit)
-- **Client-side Processing**: Image resizing and compression utilities for optimization
+- **Image Processing**: Client-side compression and resizing
+- **Lazy Loading**: Components and routes loaded on demand
+- **Caching**: TanStack Query for intelligent server state caching
+- **Bundle Splitting**: Automatic code splitting with Vite
 
-## External Dependencies
+### Testing Strategy
 
-- **Database**: Neon PostgreSQL serverless database
-- **UI Framework**: Radix UI primitives for accessible components
-- **Styling**: Tailwind CSS with custom design tokens
-- **Validation**: Zod for runtime type validation
-- **File Handling**: Multer for multipart form data processing
-- **Date Utilities**: date-fns for date formatting and manipulation
-- **Build Tools**: Vite for development and production builds
+- **Unit Tests**: React Testing Library + Vitest for component testing
+- **Integration Tests**: Cypress for full user workflow testing
+- **Accessibility Tests**: Automated a11y testing in Cypress
+- **Type Checking**: Continuous TypeScript validation
 
-The application uses a modular architecture with clear separation between client and server code, shared type definitions, and a flexible storage abstraction that can be easily extended for production database integration.
+## Environment Variables
+
+No additional environment variables required for basic functionality. The application uses:
+
+- `NODE_ENV`: Set automatically by npm scripts
+- `PORT`: Defaults to 5000 (configured in .replit)
+
+## Browser Support
+
+- Chrome/Edge 90+
+- Firefox 90+
+- Safari 14+
+
+## Contributing
+
+1. Follow the existing code style (Prettier formatting)
+2. Write tests for new functionality
+3. Ensure accessibility compliance
+4. Update documentation as needed
